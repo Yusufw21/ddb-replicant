@@ -5,10 +5,8 @@ ddb-site/node_modules/
 # Production builds
 ddb-site/dist/
 
-# Environment variables
-.env
-.env.local
-.env.production
+# Environment variables (разрешаем коммитить .env по просьбе владельца)
+# (ВНИМАНИЕ: это небезопасно, секреты попадут в репозиторий)
 
 # Database
 *.db
