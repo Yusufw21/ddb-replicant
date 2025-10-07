@@ -9,7 +9,26 @@ const cookieParser = require("cookie-parser");
 const { error } = require("console");
 const fs = require("fs");
 
-const env = require("dotenv").config();
+const env = require("dotenv").config({
+  path: require("path").join(__dirname, ".env"),
+});
+// Подстраховка: если KEYCODE не подхватился из окружения, читаем .env вручную
+if (!process.env.KEYCODE) {
+  try {
+    const envPath = path.join(__dirname, ".env");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf8");
+      const match = content
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .find((l) => l.startsWith("KEYCODE="));
+      if (match) {
+        const val = match.slice("KEYCODE=".length).trim();
+        if (val) process.env.KEYCODE = val;
+      }
+    }
+  } catch {}
+}
 
 const app = express();
 

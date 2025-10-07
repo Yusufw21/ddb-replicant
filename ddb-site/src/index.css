@@ -1631,7 +1631,7 @@ body,
 }
 
 .ep-btn-del:hover {
-  background: linear-gradient(135deg, #ef4444, rgb(235.7842364532, 30.4157635468, 30.4157635468));
+  background: linear-gradient(135deg, #ef4444, #ec1e1e);
   color: white;
   transform: scale(1.1);
 }
@@ -1656,7 +1656,7 @@ body,
 }
 
 .ep-card-body .text {
-  color: rgb(175.4770949721, 181.6536312849, 196.3229050279);
+  color: #afb6c4;
   font-size: 0.9rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -2652,7 +2652,7 @@ body:has(.modal-overlay) {
   max-width: clamp(14rem, 45vw, 60rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  margin: 50px auto 0 auto;
+  margin: 35px auto 0 auto;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -3018,7 +3018,7 @@ body:has(.modal-overlay) {
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(35, 35, 55, 0.85);
 }
-.Forget-block__keycode:not(:-moz-placeholder) {
+.Forget-block__keycode:not(:-moz-placeholder-shown) {
   border-color: rgba(102, 126, 234, 0.3);
 }
 .Forget-block__keycode:not(:placeholder-shown) {
@@ -3419,7 +3419,7 @@ body:has(.modal-overlay) {
   max-width: clamp(14rem, 45vw, 60rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  margin: 60px auto 0 auto;
+  margin: 20px auto 0 auto;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -4256,7 +4256,7 @@ body:has(.modal-overlay) {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #ef4444 0%, rgb(234.9802955665, 21.0197044335, 21.0197044335) 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #eb1515 100%);
   opacity: 0;
   border-radius: 50%;
   transition: opacity 0.3s;
@@ -4691,7 +4691,7 @@ body:has(.modal-overlay) {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .upload-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1d4ed8, rgb(22.9632653061, 61.7632653061, 171.0367346939));
+  background: linear-gradient(135deg, #1d4ed8, #173eab);
   transform: translateY(-1px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -4701,13 +4701,13 @@ body:has(.modal-overlay) {
   transform: none;
 }
 .upload-btn.success {
-  background: linear-gradient(135deg, #10b981, rgb(11.9402985075, 138.0597014925, 96.2686567164));
+  background: linear-gradient(135deg, #10b981, #0c8a60);
 }
 .upload-btn.error {
-  background: linear-gradient(135deg, #ef4444, rgb(234.9802955665, 21.0197044335, 21.0197044335));
+  background: linear-gradient(135deg, #ef4444, #eb1515);
 }
 .upload-btn.uploading {
-  background: linear-gradient(135deg, #f59e0b, rgb(196.9291338583, 126.7125984252, 8.0708661417));
+  background: linear-gradient(135deg, #f59e0b, #c57f08);
 }
 .upload-btn .spinner {
   width: 16px;
@@ -4719,12 +4719,12 @@ body:has(.modal-overlay) {
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, #ef4444, rgb(234.9802955665, 21.0197044335, 21.0197044335));
+  background: linear-gradient(135deg, #ef4444, #eb1515);
   color: white;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .delete-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgb(234.9802955665, 21.0197044335, 21.0197044335), rgb(188.842364532, 16.157635468, 16.157635468));
+  background: linear-gradient(135deg, #eb1515, #bd1010);
   transform: translateY(-1px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
