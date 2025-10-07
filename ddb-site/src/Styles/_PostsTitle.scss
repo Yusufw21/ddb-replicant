@@ -1,0 +1,13 @@
+.website__posts-title {
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: clamp(15px, 7vw, 44px);
+  letter-spacing: 0.5em;
+  margin: 50px 0 15px 0;
+}
+
+@media (max-width: 650px) {
+  .website__posts-title {
+    margin: 70px 0 30px 0;
+  }
+}

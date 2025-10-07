@@ -1,0 +1,944 @@
+// ============================================
+// VARIABLES & MIXINS
+// ============================================
+
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+$tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+$white: #ffffff;
+$white-10: rgba(255, 255, 255, 0.1);
+$white-05: rgba(255, 255, 255, 0.05);
+$white-03: rgba(255, 255, 255, 0.03);
+$white-70: rgba(255, 255, 255, 0.7);
+$white-60: rgba(255, 255, 255, 0.6);
+$white-50: rgba(255, 255, 255, 0.5);
+$white-30: rgba(255, 255, 255, 0.3);
+
+$primary-color: #667eea;
+$primary-light: #a8b9ff;
+$primary-alpha-10: rgba(102, 126, 234, 0.1);
+$primary-alpha-20: rgba(102, 126, 234, 0.2);
+$primary-alpha-30: rgba(102, 126, 234, 0.3);
+$primary-alpha-40: rgba(102, 126, 234, 0.4);
+$primary-alpha-50: rgba(102, 126, 234, 0.5);
+
+$error-color: #ef4444;
+$error-alpha-20: rgba(239, 68, 68, 0.2);
+$error-alpha-30: rgba(239, 68, 68, 0.3);
+
+$shadow-sm: 0 10px 40px rgba(102, 126, 234, 0.5);
+$shadow-md: 0 20px 60px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.4);
+$shadow-primary: 0 20px 60px rgba(102, 126, 234, 0.4);
+
+$border-radius-sm: 12px;
+$border-radius-md: 20px;
+$border-radius-lg: 22px;
+$border-radius-full: 50px;
+
+$transition-base: all 0.3s ease;
+$transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1400px;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin glass-effect {
+  background: $white-05;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $white-10;
+}
+
+@mixin text-gradient($gradient) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin responsive($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+// ============================================
+// MAIN CONTAINER - ALL STYLES SCOPED HERE
+// ============================================
+
+.syllabus-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &::before {
+    content: "";
+    @include absolute-fill;
+    background: radial-gradient(
+        circle at 20% 50%,
+        rgba(102, 126, 234, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(138, 43, 226, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 20%,
+        rgba(72, 149, 239, 0.1) 0%,
+        transparent 50%
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    @include absolute-fill;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // ============================================
+  // BACK BUTTON
+  // ============================================
+
+  .back-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    @include flex-center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    @include glass-effect;
+    border-radius: 50px;
+    text-decoration: none;
+    color: $white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: $transition-smooth;
+    z-index: 100;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      @include absolute-fill;
+      background: $primary-gradient;
+      opacity: 0;
+      border-radius: 50px;
+      transition: opacity 0.3s;
+      z-index: -1;
+    }
+
+    &:hover {
+      transform: translateX(-5px);
+      border-color: $white-30;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+
+      &::before {
+        opacity: 0.2;
+      }
+
+      .back-icon {
+        transform: translateX(-3px);
+      }
+    }
+
+    &:active {
+      transform: translateX(-5px) scale(0.95);
+    }
+
+    @include responsive($breakpoint-md) {
+      top: 1rem;
+      left: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
+    }
+
+    @include responsive($breakpoint-sm) {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .back-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s;
+
+    @include responsive($breakpoint-md) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  // ============================================
+  // HEADER SECTION
+  // ============================================
+
+  .syllabus-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 2rem;
+    z-index: 1;
+
+    @include responsive($breakpoint-md) {
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .icon-wrapper {
+    @include flex-center;
+    width: 80px;
+    height: 80px;
+    background: $primary-gradient;
+    border-radius: $border-radius-md;
+    margin: 0 auto 1.5rem;
+    box-shadow: $shadow-primary;
+    position: relative;
+    transition: $transition-smooth;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea);
+      border-radius: $border-radius-lg;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    &::after {
+      content: "";
+      @include absolute-fill;
+      background: radial-gradient(circle, $white-30 0%, transparent 70%);
+      border-radius: $border-radius-md;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 25px 70px rgba(102, 126, 234, 0.6);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    @include responsive($breakpoint-md) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .header-icon {
+    width: 40px;
+    height: 40px;
+    color: $white;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    z-index: 1;
+
+    @include responsive($breakpoint-md) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .header-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    @include text-gradient(
+      linear-gradient(135deg, $white 0%, $primary-light 100%)
+    );
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 40px rgba(168, 185, 255, 0.5);
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: $primary-gradient;
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+  }
+
+  .header-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: $white-70;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-top: 1.5rem;
+  }
+
+  // ============================================
+  // DECORATIVE ELEMENTS
+  // ============================================
+
+  .header-decoration {
+    @include absolute-fill;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .decoration-circle {
+    position: absolute;
+    border-radius: $border-radius-full;
+    opacity: 0.1;
+    filter: blur(40px);
+
+    &.circle-1 {
+      width: 300px;
+      height: 300px;
+      background: $primary-gradient;
+      top: -50px;
+      right: -100px;
+    }
+
+    &.circle-2 {
+      width: 200px;
+      height: 200px;
+      background: $secondary-gradient;
+      bottom: -50px;
+      left: -50px;
+    }
+
+    &.circle-3 {
+      width: 150px;
+      height: 150px;
+      background: $tertiary-gradient;
+      top: 50%;
+      left: -75px;
+    }
+  }
+
+  // ============================================
+  // STATISTICS CARDS
+  // ============================================
+
+  .syllabus-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: $breakpoint-xl;
+    margin: 0 auto 4rem;
+    position: relative;
+    z-index: 1;
+
+    @include responsive($breakpoint-md) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .stat-card {
+    @include glass-effect;
+    border-radius: $border-radius-md;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: $transition-smooth;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      @include absolute-fill;
+      background: linear-gradient(90deg, transparent, $white-10, transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+
+    &::after {
+      content: "";
+      @include absolute-fill;
+      background: $primary-gradient;
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 0;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: $white-30;
+      box-shadow: $shadow-md;
+
+      &::before {
+        transform: translateX(100%);
+      }
+
+      &::after {
+        opacity: 0.05;
+      }
+
+      .stat-icon {
+        transform: scale(1.1) rotate(5deg);
+        background: $primary-alpha-30;
+      }
+
+      .stat-number {
+        @include text-gradient($primary-gradient);
+      }
+    }
+
+    @include responsive($breakpoint-md) {
+      padding: 1.5rem;
+    }
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    color: $primary-color;
+    padding: 12px;
+    background: $primary-alpha-20;
+    border-radius: $border-radius-sm;
+    flex-shrink: 0;
+    transition: $transition-smooth;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-content {
+    @include flex-column;
+    gap: 0.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $white;
+    line-height: 1;
+    transition: $transition-base;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: $white-60;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  // ============================================
+  // TEACHER GRID — БЕТОННАЯ СТРУКТУРА
+  // ============================================
+
+  .syllabus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: $breakpoint-xl;
+    margin: 0 auto 4rem;
+    position: relative;
+    z-index: 1;
+    align-items: start; // ВСЕ КАРТОЧКИ ВЫРАВНИВАЮТСЯ ПО ВЕРХУ
+
+    @include responsive($breakpoint-md) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .teacher-card-wrapper {
+    display: flex;
+    justify-content: center;
+    height: 100%; // Занимает всю высоту ячейки грида
+  }
+
+  // ============================================
+  // TEACHER CARD — ЗАМУРОВАННАЯ ФИКСИРОВАННАЯ ВЫСОТА
+  // ============================================
+
+  .teacher-card {
+    position: relative;
+    @include glass-effect;
+    border-radius: $border-radius-md;
+    padding: 1.5rem;
+    text-decoration: none;
+    overflow: hidden;
+    transition: $transition-smooth;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+
+    // КРИТИЧНО: СТРОГО ФИКСИРОВАННАЯ ВЫСОТА
+    height: 390px; // Жёсткая высота для всех карточек
+    display: flex;
+    flex-direction: column;
+
+    &::before {
+      content: "";
+      @include absolute-fill;
+      background: linear-gradient(
+        135deg,
+        $primary-alpha-20 0%,
+        rgba(118, 75, 162, 0.1) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: 0;
+    }
+
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: $white-30;
+      box-shadow: $shadow-lg, 0 0 0 1px rgba(102, 126, 234, 0.3),
+        inset 0 0 20px $primary-alpha-20;
+
+      &::before {
+        opacity: 1;
+      }
+
+      .card-background {
+        opacity: 1;
+      }
+
+      .avatar {
+        transform: scale(1.1) rotate(5deg);
+        border-color: $white-30;
+        box-shadow: $shadow-sm;
+      }
+
+      .avatar-glow {
+        opacity: 1;
+      }
+
+      .teacher-name {
+        @include text-gradient($primary-gradient);
+      }
+
+      .card-shine {
+        left: 100%;
+      }
+    }
+
+    @include responsive($breakpoint-md) {
+      padding: 1.5rem;
+      height: auto; // На мобильных адаптивная высота
+    }
+  }
+
+  .card-background {
+    @include absolute-fill;
+    background: radial-gradient(
+      circle at center,
+      $primary-alpha-20 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 0;
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 2;
+    @include flex-column;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-height: 0; // Позволяет контенту сжиматься
+    overflow: hidden; // Скрывает переполнение
+    padding-top: 25px;
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0; // Не сжимается
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    background: $primary-gradient;
+    border-radius: $border-radius-full;
+    @include flex-center;
+    position: relative;
+    z-index: 2;
+    transition: $transition-smooth;
+    border: 3px solid $white-10;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+
+    @include responsive($breakpoint-md) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .avatar-icon {
+    width: 40px;
+    height: 40px;
+    color: $white;
+    position: relative;
+    z-index: 1;
+
+    @include responsive($breakpoint-md) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .avatar-glow {
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(circle, $primary-alpha-40 0%, transparent 70%);
+    border-radius: $border-radius-full;
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 1;
+  }
+
+  .teacher-info {
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0; // Не сжимается
+  }
+
+  .teacher-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $white;
+    margin-bottom: 0.5rem;
+    transition: $transition-base;
+    position: relative;
+
+    @include responsive($breakpoint-sm) {
+      font-size: 1rem;
+    }
+  }
+
+  .teacher-badge {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    background: $primary-alpha-20;
+    border: 1px solid $primary-alpha-30;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: $primary-light;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: $transition-smooth;
+    font-weight: 600;
+  }
+
+  // ============================================
+  // SUBJECTS LIST — ФИКСИРОВАННАЯ ВЫСОТА + СКРОЛЛ
+  // ============================================
+
+  .subjects-list {
+    width: 100%;
+    margin-top: 0.75rem;
+    overflow-y: auto; // Вертикальный скролл
+    flex: 1; // Занимает всё оставшееся пространство
+    min-height: 0; // Позволяет сжиматься
+    padding-right: 4px;
+
+    // Стилизация скроллбара
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: $primary-alpha-30;
+      border-radius: 3px;
+
+      &:hover {
+        background: $primary-alpha-40;
+      }
+    }
+  }
+
+  .subject-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .subject-icon {
+    color: $primary-color;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  .subject-name {
+    flex: 1;
+    text-align: left;
+    font-size: 0.875rem;
+    color: $white-70;
+    word-break: break-word;
+  }
+
+  .open-btn {
+    background: rgba(102, 126, 234, 0.2);
+    color: $white;
+    border: 1px solid rgba(102, 126, 234, 0.4);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: $transition-smooth;
+    flex-shrink: 0; // Не сжимается
+
+    &:hover {
+      background: rgba(102, 126, 234, 0.3);
+      border-color: rgba(102, 126, 234, 0.6);
+      transform: translateY(-1px);
+    }
+  }
+
+  .card-shine {
+    @include absolute-fill;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      $white-10 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s;
+    pointer-events: none;
+  }
+
+  // ============================================
+  // FOOTER
+  // ============================================
+
+  .syllabus-footer {
+    max-width: $breakpoint-xl;
+    margin: 4rem auto 0;
+    padding: 2rem 0;
+    border-top: 1px solid $white-10;
+    position: relative;
+    z-index: 1;
+
+    @include responsive($breakpoint-md) {
+      margin-top: 2rem;
+    }
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    color: $white-50;
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+
+  // ============================================
+  // SCROLLBAR STYLING
+  // ============================================
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-gradient;
+    border-radius: 4px;
+
+    &:hover {
+      background: linear-gradient(135deg, #7b8ef5 0%, #8a5bb8 100%);
+    }
+  }
+
+  // ============================================
+  // FOCUS STATES
+  // ============================================
+
+  .teacher-card,
+  .stat-card {
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px $primary-alpha-40;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+  }
+
+  // ============================================
+  // HOVER EFFECTS FOR GROUPS
+  // ============================================
+
+  .syllabus-grid:hover .teacher-card:not(:hover) {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+
+  .syllabus-stats:hover .stat-card:not(:hover) {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+
+  // ============================================
+  // MOBILE OPTIMIZATIONS
+  // ============================================
+
+  @include responsive($breakpoint-md) {
+    .header-title::after {
+      width: 60px;
+      height: 3px;
+    }
+
+    .decoration-circle {
+      &.circle-1 {
+        width: 200px;
+        height: 200px;
+      }
+
+      &.circle-2 {
+        width: 150px;
+        height: 150px;
+      }
+
+      &.circle-3 {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
+  @include responsive($breakpoint-sm) {
+    padding: 1rem;
+
+    .header-title {
+      font-size: 1.75rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.875rem;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+    }
+
+    .teacher-name {
+      font-size: 1rem;
+    }
+
+    .teacher-badge {
+      font-size: 0.625rem;
+      padding: 0.2rem 0.75rem;
+    }
+
+    .subject-name {
+      font-size: 0.8rem;
+    }
+
+    .open-btn {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+}
+
+// ============================================
+// REDUCED MOTION
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+  .syllabus-container {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

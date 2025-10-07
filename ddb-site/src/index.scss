@@ -1,0 +1,34 @@
+@use "./Styles/header" as *;
+@use "./Admin/admin.module" as *;
+@use "./Styles/posts" as *;
+@use "./Login/login.module" as *;
+@use "./Styles/postview" as *;
+@use "./EditPost/editpost.module" as *;
+@use "./Styles/PostsTitle" as *;
+@use "./LessonsMap/lessonmaps.module" as *;
+@use "./Styles/lessonsMap_btn" as *;
+@use "./Styles/forgetPassword" as *;
+@use "./Styles/syllabus-btn" as *;
+@use "./Syllabus/syllabus.module" as *;
+@use "./Sylabus_Edits/sylabus_edits.module" as *;
+body {
+  margin: 0;
+  background: linear-gradient(
+    125deg,
+    #fffaf7 0%,
+    #f8e9e1 25%,
+    #e8d9d0 50%,
+    #d0e0dd 75%,
+    #c2d5d8 100%
+  );
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+
+  will-change: transform, visibility;
+  backface-visibility: hidden;
+  /* или */
+  transform-style: preserve-3d;
+}

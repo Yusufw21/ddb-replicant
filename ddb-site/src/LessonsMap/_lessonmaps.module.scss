@@ -1,0 +1,807 @@
+// ==================== ПЕРЕМЕННЫЕ ====================
+$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+$background-dark: #0f0f23;
+$background-light: #1a1a2e;
+$card-bg: rgba(255, 255, 255, 0.05);
+$card-border: rgba(255, 255, 255, 0.1);
+$text-primary: #ffffff;
+$text-secondary: #b8b8d1;
+$shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 10px 25px rgba(0, 0, 0, 0.2);
+$shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// ==================== МИКСИНЫ ====================
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@mixin hover-lift {
+  transition: transform $transition-normal, box-shadow $transition-normal;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// ==================== АНИМАЦИИ ====================
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// ==================== ОСНОВНОЙ КОНТЕЙНЕР ====================
+.lessons-container {
+  min-height: 100vh;
+  background: $background-dark;
+  color: $text-primary;
+  position: relative;
+  overflow-x: hidden;
+  padding: 20px;
+  padding-top: 80px;
+  padding-bottom: 40px;
+
+  @media (min-width: 768px) {
+    padding: 30px;
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+
+  @media (min-width: 1000px) {
+    padding: 40px 60px;
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 50px 100px;
+  }
+}
+
+// ==================== АНИМИРОВАННЫЙ ФОН ====================
+.animated-bg {
+  @include absolute-full;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: float 20s ease-in-out infinite;
+
+  &.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #667eea, transparent);
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+  }
+
+  &.shape-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #f5576c, transparent);
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 7s;
+  }
+
+  &.shape-3 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #764ba2, transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 14s;
+  }
+
+  @media (min-width: 1000px) {
+    &.shape-1 {
+      width: 600px;
+      height: 600px;
+    }
+
+    &.shape-2 {
+      width: 700px;
+      height: 700px;
+    }
+
+    &.shape-3 {
+      width: 500px;
+      height: 500px;
+    }
+  }
+}
+
+// ==================== КНОПКА НАЗАД ====================
+.close-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  @include flex-center;
+  gap: 8px;
+  padding: 12px 20px;
+  @include glass-effect;
+  border: none;
+  border-radius: 50px;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-5px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateX(-3px) scale(0.98);
+  }
+
+  @media (min-width: 768px) {
+    top: 30px;
+    left: 30px;
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  @media (min-width: 1000px) {
+    top: 40px;
+    left: 60px;
+  }
+}
+
+// ==================== ЗАГОЛОВОК ====================
+.lessons-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 40px;
+  z-index: 1;
+  animation: fadeInUp 0.8s ease;
+
+  @media (min-width: 768px) {
+    margin-bottom: 60px;
+  }
+
+  @media (min-width: 1000px) {
+    margin-bottom: 80px;
+  }
+}
+
+.header-decoration {
+  width: 60px;
+  height: 4px;
+  background: $primary-gradient;
+  margin: 0 auto 20px;
+  border-radius: 2px;
+
+  @media (min-width: 768px) {
+    width: 80px;
+    height: 5px;
+  }
+}
+
+.header-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 12px;
+  background: linear-gradient(135deg, #ffffff, #b8b8d1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+
+  @media (min-width: 768px) {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: 56px;
+  }
+}
+
+.title-word {
+  display: inline-block;
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: $text-secondary;
+  font-weight: 400;
+  margin: 0;
+  animation: fadeInUp 0.8s ease 0.5s backwards;
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: 20px;
+  }
+}
+
+// ==================== КОНТЕНТ ====================
+.lessons-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  @media (min-width: 1000px) {
+    gap: 40px;
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+  }
+}
+
+// ==================== КАРТОЧКА УРОКА ====================
+.lesson-card {
+  @include glass-effect;
+  border-radius: 24px;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease backwards;
+  @include hover-lift;
+  box-shadow: $shadow-md;
+
+  @media (min-width: 768px) {
+    border-radius: 28px;
+  }
+
+  @media (min-width: 1000px) {
+    border-radius: 32px;
+  }
+}
+
+// ==================== ЗАГОЛОВОК КАРТОЧКИ ====================
+.card-header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    @include absolute-full;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity $transition-normal;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  @media (min-width: 768px) {
+    padding: 28px;
+    gap: 20px;
+  }
+
+  @media (min-width: 1000px) {
+    padding: 32px;
+  }
+}
+
+.card-icon {
+  @include flex-center;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  @media (min-width: 768px) {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    border-radius: 18px;
+  }
+
+  @media (min-width: 1000px) {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 20px;
+  }
+}
+
+.card-title-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 768px) {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: 28px;
+  }
+}
+
+.card-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 5px 14px;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: 15px;
+    padding: 6px 16px;
+  }
+}
+
+// ==================== ИЗОБРАЖЕНИЕ ====================
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+
+  @media (min-width: 1000px) {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.image-skeleton {
+  @include absolute-full;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  overflow: hidden;
+  z-index: 1;
+}
+
+.skeleton-shimmer {
+  @include absolute-full;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $transition-slow, opacity $transition-normal;
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+.image-overlay {
+  @include absolute-full;
+  @include flex-center;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity $transition-normal;
+  backdrop-filter: blur(2px);
+
+  svg {
+    color: #ffffff;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  }
+}
+
+.card-image-wrapper:hover {
+  .card-image {
+    transform: scale(1.05);
+  }
+
+  .image-overlay {
+    opacity: 1;
+  }
+}
+
+// ==================== ФУТЕР КАРТОЧКИ ====================
+.card-footer {
+  padding: 20px 24px;
+  @include flex-center;
+
+  @media (min-width: 768px) {
+    padding: 24px 28px;
+  }
+
+  @media (min-width: 1000px) {
+    padding: 28px 32px;
+  }
+}
+
+.btn-view {
+  width: 100%;
+  padding: 14px 28px;
+  background: $primary-gradient;
+  border: none;
+  border-radius: 50px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    @include absolute-full;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity $transition-normal;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1000px) {
+    max-width: 280px;
+    padding: 18px 36px;
+    font-size: 17px;
+  }
+}
+
+// ==================== МОДАЛЬНОЕ ОКНО ====================
+// ==================== МОДАЛЬНОЕ ОКНО ====================
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  @include flex-center;
+  padding: 20px;
+  animation: fadeIn $transition-normal ease;
+  overflow: hidden;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    padding: 40px;
+  }
+
+  @media (min-width: 1000px) {
+    padding: 60px;
+  }
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 100%;
+  margin: auto;
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 1000px) {
+    max-width: 1400px;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 1600px;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  z-index: 10;
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg) scale(1.1);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.95);
+  }
+
+  @media (min-width: 768px) {
+    width: 52px;
+    height: 52px;
+    top: -60px;
+  }
+
+  @media (min-width: 1000px) {
+    width: 56px;
+    height: 56px;
+    top: -70px;
+    right: 0;
+  }
+}
+
+.modal-zoom-btn {
+  position: absolute;
+  top: -50px;
+  right: 70px;
+  z-index: 10;
+  @include flex-center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 12px;
+  background: rgba(102, 126, 234, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: 600;
+  gap: 6px;
+
+  &:hover {
+    background: rgba(102, 126, 234, 0.3);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (min-width: 768px) {
+    min-width: 52px;
+    height: 52px;
+    top: -60px;
+    right: 80px;
+    font-size: 15px;
+  }
+
+  @media (min-width: 1000px) {
+    min-width: 56px;
+    height: 56px;
+    top: -70px;
+    right: 85px;
+    font-size: 16px;
+  }
+}
+
+.modal-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-height: calc(100vh - 120px);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+
+  @media (min-width: 768px) {
+    border-radius: 20px;
+    max-height: calc(100vh - 160px);
+  }
+
+  @media (min-width: 1000px) {
+    border-radius: 24px;
+    max-height: calc(100vh - 200px);
+  }
+}
+
+.modal-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 120px);
+  object-fit: cover;
+  background: #000000;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-select: none;
+
+  @media (min-width: 768px) {
+    max-height: calc(100vh - 160px);
+  }
+
+  @media (min-width: 1000px) {
+    max-height: calc(100vh - 200px);
+  }
+}
+
+// ==================== СКРОЛЛБАР ====================
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+
+  @media (min-width: 1000px) {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  transition: background $transition-normal;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// ==================== ОТКЛЮЧЕНИЕ СКРОЛЛА ПРИ МОДАЛКЕ ====================
+body:has(.modal-overlay) {
+  overflow: hidden;
+}

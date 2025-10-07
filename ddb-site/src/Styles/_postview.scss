@@ -1,0 +1,406 @@
+.post-view {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transform: translateX(100%);
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 18, 18, 0.95) 0%,
+    rgba(0, 0, 0, 0.98) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    visibility 0.4s ease-in-out;
+
+  &.openmenu {
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  &__image-container {
+    width: 100%;
+    height: 45vh;
+    background: linear-gradient(-45deg, #3b82f6, #1e40af, #1e293b, #0f172a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        rgba(25, 20, 20, 0.4) 70%
+      );
+      z-index: 1;
+    }
+
+    @media (min-width: 540px) {
+      height: 50vh;
+    }
+
+    @media (min-width: 768px) {
+      height: 55vh;
+    }
+  }
+
+  &__image {
+    width: 85%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    z-index: 2;
+    position: relative;
+
+    @media (min-width: 540px) {
+      width: 70%;
+      max-width: 320px;
+      border-radius: 16px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      width: 60%;
+      max-width: 360px;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  &__back {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    outline: none;
+
+    // Увеличиваем область клика
+    &::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    &::after {
+      content: "";
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 19l-7-7 7-7'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.1);
+
+      &::after {
+        transform: translateX(-1px);
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    @media (min-width: 768px) {
+      width: 56px;
+      height: 56px;
+      top: 24px;
+      left: 24px;
+
+      &::after {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  &__content {
+    width: 100vw;
+    height: 55vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px 24px;
+    background: linear-gradient(
+      180deg,
+      rgba(25, 20, 20, 0.95) 0%,
+      #121212 100%
+    );
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(
+        180deg,
+        rgba(59, 130, 246, 0.1) 0%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+
+    @media (min-width: 540px) {
+      padding: 40px 32px 32px;
+    }
+
+    @media (min-width: 768px) {
+      padding: 48px 40px 40px;
+    }
+  }
+
+  &__title {
+    margin: 0 0 12px 0;
+    font-family: "Circular Std", "Montserrat", "Helvetica Neue", Arial,
+      sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    @media (min-width: 540px) {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__description {
+    margin: 0 0 20px 0;
+    font-family: "Circular Std", "Montserrat", "Helvetica Neue", Arial,
+      sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #b3b3b3;
+    height: 80px;
+    overflow-y: auto;
+    padding-right: 8px;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    @media (min-width: 540px) {
+      font-size: 17px;
+      height: 96px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 18px;
+      height: 120px;
+      margin-bottom: 28px;
+    }
+  }
+
+  &__text {
+    font-family: "Circular Std", "Montserrat", "Helvetica Neue", Arial,
+      sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #e5e5e5;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin: 0;
+    flex: 1;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.5);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.7);
+      }
+    }
+
+    @media (min-width: 540px) {
+      font-size: 16px;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 17px;
+      line-height: 1.65;
+    }
+  }
+
+  // Spotify-style floating action button
+  &__play-button {
+    position: absolute;
+    bottom: 32px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+    z-index: 10;
+
+    &::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform: translateX(1px);
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      background: #2563eb;
+      box-shadow: 0 12px 32px rgba(59, 130, 246, 0.6);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    @media (min-width: 768px) {
+      width: 64px;
+      height: 64px;
+      bottom: 40px;
+      right: 40px;
+
+      &::after {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  // Ripple effect for back button
+  &__back {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    &:active::before {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  // Smooth gradient animation
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
