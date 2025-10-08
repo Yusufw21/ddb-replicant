@@ -2667,6 +2667,11 @@ body:has(.modal-overlay) {
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 3s ease;
   animation: gradientShift 3s ease infinite;
 }
+.map-buttonp {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
 .map-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);

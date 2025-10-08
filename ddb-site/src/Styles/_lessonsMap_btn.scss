@@ -8,6 +8,12 @@
   height: 6rem;
   margin: 20px auto 0 auto;
 
+  &p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
