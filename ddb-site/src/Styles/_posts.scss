@@ -12,6 +12,11 @@
   margin-top: 20px;
   padding-top: 45px;
 
+  /* Ensure bottom buttons are not pushed off-screen on small phones */
+  @media (max-width: 600px) {
+    padding-bottom: 16px;
+  }
+
   &::-webkit-scrollbar {
     height: 6px;
   }
@@ -38,8 +43,8 @@
 .website__post {
   flex-shrink: 0;
   width: clamp(19.438rem, 21.35vw, 25.688rem);
-  height: 100%;
-  max-height: clamp(19.438rem, 21.35vw, 25.688rem);
+  height: auto;
+  max-height: clamp(19.438rem, 60vw, 28rem);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -100,7 +105,7 @@
   }
 
   &__bottom {
-    height: 172px;
+    height: auto;
     display: flex;
     flex-direction: column;
     row-gap: 26px;

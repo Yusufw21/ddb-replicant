@@ -6,7 +6,8 @@
   max-width: clamp(14rem, 25vw, 40rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  margin: 20px auto 0 auto;
+  /* Keep distance from surrounding content and the viewport bottom */
+  margin: 20px auto 56px auto;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-wrap: nowrap;
@@ -72,8 +73,9 @@
   }
 }
 
+/* Avoid pushing buttons off the bottom on small screens */
 @media (max-width: 600px) {
   .map-button {
-    margin: 110px auto 0 auto;
+    margin: 20px auto 48px auto;
   }
 }

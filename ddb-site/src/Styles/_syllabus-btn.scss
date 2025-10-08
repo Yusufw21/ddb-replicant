@@ -6,7 +6,7 @@
   max-width: clamp(14rem, 25vw, 40rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  margin: 20px auto 0 auto;
+  margin: 20px auto 56px auto;
 
   font-size: 1rem;
   font-weight: 600;
@@ -66,5 +66,12 @@
   .sillabus-button {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
+  }
+}
+
+/* Keep spacing reasonable on small screens so button isn't glued to bottom */
+@media (max-width: 600px) {
+  .sillabus-button {
+    margin: 20px auto 48px auto;
   }
 }
