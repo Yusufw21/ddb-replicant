@@ -66,6 +66,14 @@
     @media (min-width: 768px) {
       height: 52vh;
     }
+
+    /* Short screens: reduce hero image height */
+    @media (max-height: 700px) {
+      height: 36svh;
+    }
+    @media (max-height: 600px) {
+      height: 32svh;
+    }
   }
 
   &__image {
@@ -210,6 +218,14 @@
 
     @media (min-width: 768px) {
       padding: 48px 40px 40px;
+    }
+
+    /* Short screens: tighter paddings to keep content visible */
+    @media (max-height: 700px) {
+      padding: 24px 18px 18px;
+    }
+    @media (max-height: 600px) {
+      padding: 20px 16px 16px;
     }
   }
 

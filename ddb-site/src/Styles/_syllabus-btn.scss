@@ -75,3 +75,14 @@
     margin: 20px auto 48px auto;
   }
 }
+
+@media (max-height: 700px) {
+  .sillabus-button {
+    margin-bottom: 40px;
+  }
+}
+@media (max-height: 600px) {
+  .sillabus-button {
+    margin-bottom: 32px;
+  }
+}

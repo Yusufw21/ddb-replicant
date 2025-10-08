@@ -79,3 +79,15 @@
     margin: 20px auto 48px auto;
   }
 }
+
+/* Short viewport height: add extra breathing room above bottom */
+@media (max-height: 700px) {
+  .map-button {
+    margin-bottom: 40px;
+  }
+}
+@media (max-height: 600px) {
+  .map-button {
+    margin-bottom: 32px;
+  }
+}
