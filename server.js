@@ -1,5 +1,4 @@
 const Database = require("better-sqlite3");
-const db = new Database("posts.db");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const express = require("express");
@@ -8,6 +7,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { error } = require("console");
 const fs = require("fs");
+
+// Создаем папку data если её нет (для Railway Volume)
+const dataDir = path.join(__dirname, "data");
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+const db = new Database(path.join(dataDir, "posts.db"));
 
 const env = require("dotenv").config({
   path: require("path").join(__dirname, ".env"),
@@ -184,7 +191,11 @@ if (!isProduction) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "uploads"));
+    const uploadsDir = path.join(dataDir, "uploads");
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -250,7 +261,7 @@ app.delete("/api/posts/:id", (req, res) => {
     stmt.run(id);
 
     // Удаляем файл изображения
-    const filePath = path.join(__dirname, "uploads", post.imagePath);
+    const filePath = path.join(dataDir, "uploads", post.imagePath);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
@@ -262,7 +273,7 @@ app.delete("/api/posts/:id", (req, res) => {
   }
 });
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(dataDir, "uploads")));
 
 // ^ ^ ^ Раздача постов
 
@@ -338,7 +349,7 @@ app.put("/api/posts/:id", upload.single("imagePath"), (req, res) => {
     }
 
     if (req.file && post.imagePath) {
-      const oldFile = path.join(__dirname, "uploads", post.imagePath);
+      const oldFile = path.join(dataDir, "uploads", post.imagePath);
       if (fs.existsSync(oldFile)) fs.unlinkSync(oldFile);
     }
 
@@ -431,7 +442,7 @@ app.put("/api/admin/reset-password", async (req, res) => {
 
 const syllabusStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const syllabusDir = path.join(__dirname, "uploads", "syllabi");
+    const syllabusDir = path.join(dataDir, "uploads", "syllabi");
     if (!fs.existsSync(syllabusDir)) {
       fs.mkdirSync(syllabusDir, { recursive: true });
     }
@@ -487,7 +498,7 @@ app.post(
         .get(teacher, subject);
       if (existing) {
         const oldPath = path.join(
-          __dirname,
+          dataDir,
           "uploads",
           "syllabi",
           existing.filePath
@@ -540,12 +551,7 @@ app.delete("/api/syllabus/:id", (req, res) => {
     if (!record) {
       return res.status(404).json({ error: "Силлабус ёфт нашуд" });
     }
-    const filePath = path.join(
-      __dirname,
-      "uploads",
-      "syllabi",
-      record.filePath
-    );
+    const filePath = path.join(dataDir, "uploads", "syllabi", record.filePath);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
