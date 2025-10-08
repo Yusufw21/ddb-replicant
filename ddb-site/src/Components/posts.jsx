@@ -61,27 +61,6 @@ function PostContent({ post }) {
             {post.descr}
           </h5>
         </div>
-        <div className="website__post__bottom__bottomblock">
-          <div className="website__post__bottom__bottomblock__left">
-            <img
-              className="website__post__bottom__bottomblock__left__comment"
-              src="/post/comment.png"
-              alt="comment"
-            />
-            <img
-              className="website__post__bottom__bottomblock__left__save"
-              src="/post/save.png"
-              alt="save"
-            />
-          </div>
-          <div className="website__post__bottom__bottomblock__right">
-            <img
-              className="website__post__bottom__bottomblock__right__share"
-              src="/post/share.png"
-              alt="share"
-            />
-          </div>
-        </div>
       </div>
       {post.imagePath && (
         <img

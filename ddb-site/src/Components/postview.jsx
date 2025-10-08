@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function PostView({
   openWindow,
@@ -6,62 +6,144 @@ export default function PostView({
   choosedData,
   setChoosedData,
 }) {
-  const hiddenStyle = {
-    transform: "translateX(-100%) ",
-    pointerEvents: "none",
-    transition: "transform 0.2s ease-in-out",
-  };
+  const contentRef = useRef(null);
+  const overlayRef = useRef(null);
+  const scrollPositionRef = useRef(0);
 
-  const openStyle = {
-    transform: "translateX(0) rotateX(0)",
-    pointerEvents: "auto",
-    transition: "transform 0.2s ease-in-out",
-  };
-
-  // Prevent background scroll when post view is open
   useEffect(() => {
     if (openWindow) {
-      document.body.classList.add("no-scroll");
+      scrollPositionRef.current =
+        window.pageYOffset || document.documentElement.scrollTop;
+
+      const body = document.body;
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      body.style.overflow = "hidden";
+      body.style.position = "fixed";
+      body.style.top = `-${scrollPositionRef.current}px`;
+      body.style.left = "0";
+      body.style.right = "0";
+      body.style.width = "100%";
+
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+
+      body.style.touchAction = "none";
+      body.style.overscrollBehavior = "none";
     } else {
-      document.body.classList.remove("no-scroll");
+      const body = document.body;
+      const scrollY = scrollPositionRef.current;
+
+      body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.paddingRight = "";
+      body.style.touchAction = "";
+      body.style.overscrollBehavior = "";
+
+      window.scrollTo(0, scrollY);
     }
+
     return () => {
-      document.body.classList.remove("no-scroll");
+      const body = document.body;
+      body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.paddingRight = "";
+      body.style.touchAction = "";
+      body.style.overscrollBehavior = "";
     };
   }, [openWindow]);
 
+  useEffect(() => {
+    if (!openWindow || !overlayRef.current) return;
+
+    const handleTouchMove = (e) => {
+      const target = e.target;
+      const content = contentRef.current;
+
+      if (content && !content.contains(target)) {
+        e.preventDefault();
+      }
+    };
+
+    const overlay = overlayRef.current;
+
+    overlay.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      overlay.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [openWindow]);
+
+  const handleBackdropClick = (e) => {
+    if (e.target === overlayRef.current) {
+      setOpenWindow(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!openWindow) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setOpenWindow(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [openWindow, setOpenWindow]);
+
   if (!choosedData) {
-    return null; // или можно показать "Выберите пост"
+    return null;
   }
+
   return (
     <div
-      style={!openWindow ? hiddenStyle : openStyle}
+      ref={overlayRef}
       className={`post-view ${openWindow ? "openmenu" : ""}`}
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="post-title"
     >
-      {/* Изображение — на всю ширину, фиксированная высота */}
       <div className="post-view__image-container">
         <img
           src={`/uploads/${choosedData.imagePath}`}
           alt={choosedData.name}
           className="post-view__image"
           loading="lazy"
+          draggable="false"
         />
         <button
-          onClick={() => setOpenWindow(!openWindow)}
+          onClick={() => setOpenWindow(false)}
           className="post-view__back"
-        ></button>
+          aria-label="Закрыть"
+          type="button"
+        />
       </div>
 
-      {/* Основной контент */}
-      <div className="post-view__content">
-        {/* Заголовок */}
-        <h1 className="post-view__title">{choosedData.name}</h1>
+      <div
+        ref={contentRef}
+        className="post-view__content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h1 id="post-title" className="post-view__title">
+          {choosedData.name}
+        </h1>
 
-        {/* Описание */}
         <p className="post-view__description">{choosedData.descr}</p>
 
-        {/* Основной текст */}
-        <span className="post-view__text">{choosedData.text}</span>
+        <div className="post-view__text">{choosedData.text}</div>
       </div>
     </div>
   );

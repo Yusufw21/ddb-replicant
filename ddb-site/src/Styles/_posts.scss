@@ -126,44 +126,6 @@
         transform: translateY(40px);
       }
     }
-
-    &__bottomblock {
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      &__left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        &__comment,
-        &__save {
-          width: 24px;
-          height: 24px;
-          transition: transform 0.2s ease, opacity 0.2s ease;
-
-          &:hover {
-            transform: translateY(-1px);
-            opacity: 0.9;
-          }
-        }
-      }
-
-      &__right {
-        &__share {
-          width: 24px;
-          height: 24px;
-          transition: transform 0.2s ease, opacity 0.2s ease;
-
-          &:hover {
-            transform: translateY(-1px);
-            opacity: 0.9;
-          }
-        }
-      }
-    }
   }
 }
 

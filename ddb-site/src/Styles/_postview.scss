@@ -1,21 +1,42 @@
-/* PostView overlay - clean, mobile-stable, safe-area aware */
+/* PostView overlay - максимально стабильный, защищённый от скролла фона */
+
 .post-view {
+  /* Фиксированное позиционирование на весь экран */
   position: fixed;
   inset: 0;
   z-index: 1000;
+
+  /* Flexbox для вертикального расположения */
   display: flex;
   flex-direction: column;
+
+  /* Размеры */
   width: 100vw;
-  height: 100vh; /* fallback */
-  height: 100dvh; /* modern mobile */
+  width: 100dvw; /* Динамическая ширина viewport */
+  height: 100vh;
+  height: 100dvh; /* Динамическая высота viewport */
+
+  /* Визуальные эффекты */
   background: rgba(0, 0, 0, 0.96);
   backdrop-filter: blur(14px) saturate(1.6);
   -webkit-backdrop-filter: blur(14px) saturate(1.6);
+
+  /* Анимация появления */
   transform: translateX(100%);
   visibility: hidden;
   pointer-events: none;
-  transition: transform 0.35s ease, visibility 0.35s ease;
-  overscroll-behavior: contain; /* do not scroll background */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.35s ease;
+
+  /* КРИТИЧНО: Запрет скролла на корневом элементе */
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: auto;
+  touch-action: none; /* Блокировка жестов на корневом уровне */
+
+  /* Изоляция для производительности */
+  isolation: isolate;
+  will-change: transform;
 
   &.openmenu {
     transform: translateX(0);
@@ -23,15 +44,15 @@
     pointer-events: auto;
   }
 
-  /* Top image/hero area */
+  /* Верхняя область с изображением */
   &__image-container {
     position: relative;
     width: 100%;
-    flex: 0 0 auto;
+    flex: 0 0 auto; /* Не растягивается и не сжимается */
 
-    /* Stable height that adapts to device height without causing jumps */
-    height: 40vh; /* fallback */
-    height: 40svh;
+    /* Адаптивная высота */
+    height: 40vh;
+    height: 40svh; /* Small viewport height - стабильнее на мобильных */
 
     display: flex;
     align-items: center;
@@ -39,17 +60,43 @@
     overflow: hidden;
     background: linear-gradient(135deg, #0f172a, #111827);
 
+    /* Запрет взаимодействий */
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+
+    /* Медиа-запросы для разных размеров экрана */
     @media (min-width: 540px) {
       height: 46vh;
+      height: 46svh;
     }
+
     @media (min-width: 768px) {
       height: 50vh;
+      height: 50svh;
     }
+
+    @media (min-width: 1024px) {
+      height: 52vh;
+      height: 52svh;
+    }
+
+    /* Низкие экраны */
     @media (max-height: 700px) {
       height: 36svh;
     }
+
     @media (max-height: 600px) {
       height: 32svh;
+    }
+
+    @media (max-height: 500px) {
+      height: 28svh;
+    }
+
+    /* Ландшафтная ориентация */
+    @media (orientation: landscape) and (max-height: 500px) {
+      height: 50svh;
     }
   }
 
@@ -60,16 +107,28 @@
     max-height: 100%;
     object-fit: contain;
     border-radius: 14px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
     transition: transform 0.25s ease;
+
+    /* Запрет перетаскивания изображения */
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
 
     @media (min-width: 540px) {
       width: 78%;
       max-width: 420px;
     }
+
     @media (min-width: 768px) {
       width: 64%;
       max-width: 520px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 56%;
+      max-width: 580px;
     }
 
     &:hover {
@@ -79,8 +138,8 @@
 
   &__back {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: max(16px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
     width: 48px;
     height: 48px;
     border: none;
@@ -93,6 +152,10 @@
     z-index: 2;
     transition: transform 0.2s ease, background 0.2s ease;
 
+    /* Разрешаем клик только на кнопке */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
     &::after {
       content: "";
       width: 22px;
@@ -101,78 +164,212 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      pointer-events: none;
     }
 
-    &:hover { background: rgba(255, 255, 255, 0.18); transform: scale(1.06); }
-    &:active { transform: scale(0.95); }
-    &:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    &:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.06);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
 
     @media (min-width: 768px) {
-      top: 22px; left: 22px; width: 56px; height: 56px;
-      &::after { width: 26px; height: 26px; }
+      top: max(22px, env(safe-area-inset-top));
+      left: max(22px, env(safe-area-inset-left));
+      width: 56px;
+      height: 56px;
+
+      &::after {
+        width: 26px;
+        height: 26px;
+      }
     }
   }
 
-  /* Content area fills remaining height and scrolls internally */
+  /* Контентная область - ЕДИНСТВЕННОЕ место с прокруткой */
   &__content {
     position: relative;
-    width: 100vw;
-    flex: 1 1 auto;
-    min-height: 0; /* allow children to scroll */
-    overflow: auto; /* internal scroll only */
-    padding: 28px 20px calc(24px + env(safe-area-inset-bottom));
+    width: 100%;
+    flex: 1 1 auto; /* Занимает оставшееся пространство */
+    min-height: 0; /* Критично для работы flex + overflow */
+
+    /* ТОЛЬКО здесь разрешён скролл */
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain; /* Не передаём скролл родителю */
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    touch-action: pan-y; /* Разрешаем только вертикальную прокрутку */
+
+    /* Отступы с учётом safe area */
+    padding: 28px max(20px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom))
+      max(20px, env(safe-area-inset-left));
+
     background: linear-gradient(180deg, rgba(12, 12, 12, 0.95), #0b0b0b 80%);
-    overscroll-behavior: contain;
+
+    /* Оптимизация производительности */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 
     @media (min-width: 540px) {
-      padding: 34px 26px calc(28px + env(safe-area-inset-bottom));
-    }
-    @media (min-width: 768px) {
-      padding: 40px 34px calc(32px + env(safe-area-inset-bottom));
+      padding: 34px max(26px, env(safe-area-inset-right))
+        max(28px, env(safe-area-inset-bottom))
+        max(26px, env(safe-area-inset-left));
     }
 
+    @media (min-width: 768px) {
+      padding: 40px max(34px, env(safe-area-inset-right))
+        max(32px, env(safe-area-inset-bottom))
+        max(34px, env(safe-area-inset-left));
+    }
+
+    @media (min-width: 1024px) {
+      padding: 44px max(40px, env(safe-area-inset-right))
+        max(36px, env(safe-area-inset-bottom))
+        max(40px, env(safe-area-inset-left));
+    }
+
+    /* Компактные отступы для низких экранов */
     @media (max-height: 700px) {
-      padding: 22px 16px calc(20px + env(safe-area-inset-bottom));
+      padding: 22px max(16px, env(safe-area-inset-right))
+        max(20px, env(safe-area-inset-bottom))
+        max(16px, env(safe-area-inset-left));
     }
+
     @media (max-height: 600px) {
-      padding: 18px 14px calc(16px + env(safe-area-inset-bottom));
+      padding: 18px max(14px, env(safe-area-inset-right))
+        max(16px, env(safe-area-inset-bottom))
+        max(14px, env(safe-area-inset-left));
     }
+
+    @media (max-height: 500px) {
+      padding: 14px max(12px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom))
+        max(12px, env(safe-area-inset-left));
+    }
+
+    /* Кастомный scrollbar для контента */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.55);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.75);
+      }
+    }
+
+    /* Firefox scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(59, 130, 246, 0.55) transparent;
   }
 
   &__title {
     margin: 0 0 12px;
     color: #fff;
-    font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto,
+      Arial, sans-serif;
     font-weight: 800;
     letter-spacing: -0.01em;
     font-size: clamp(20px, 3.2vw, 36px);
     line-height: 1.15;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+
+    @media (max-height: 600px) {
+      margin-bottom: 8px;
+      font-size: clamp(18px, 3vw, 28px);
+    }
   }
 
   &__description {
     margin: 0 0 18px;
     color: #cbd5e1;
-    font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto,
+      Arial, sans-serif;
     font-size: clamp(14px, 2.2vw, 18px);
     line-height: 1.45;
     max-height: 8.5rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
-    &::-webkit-scrollbar { width: 3px; }
-    &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.22); border-radius: 3px; }
+    @media (max-height: 600px) {
+      margin-bottom: 12px;
+      max-height: 6rem;
+      font-size: clamp(13px, 2vw, 16px);
+    }
+
+    /* Кастомный scrollbar для описания */
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+    }
   }
 
   &__text {
     margin: 0;
     color: #e5e7eb;
-    font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto,
+      Arial, sans-serif;
     font-weight: 400;
     font-size: clamp(14px, 2.1vw, 17px);
     line-height: 1.6;
-    overflow: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 
-    &::-webkit-scrollbar { width: 4px; }
-    &::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.55); border-radius: 4px; }
+    @media (max-height: 600px) {
+      font-size: clamp(13px, 2vw, 16px);
+      line-height: 1.5;
+    }
+
+    /* Кастомный scrollbar для текста */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.55);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.75);
+      }
+    }
   }
 }

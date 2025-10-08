@@ -7,7 +7,7 @@
   padding: 1rem 2.5rem;
   height: 6rem;
   /* Keep distance from surrounding content and the viewport bottom */
-  margin: 20px auto 56px auto;
+  margin: 40px auto 36px auto;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-wrap: nowrap;
@@ -76,7 +76,7 @@
 /* Avoid pushing buttons off the bottom on small screens */
 @media (max-width: 600px) {
   .map-button {
-    margin: 20px auto 48px auto;
+    margin: 40px auto 28px auto;
   }
 }
 
