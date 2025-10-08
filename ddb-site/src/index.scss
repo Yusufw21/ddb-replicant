@@ -24,6 +24,12 @@ body {
   position: relative;
 }
 
+/* Prevent background scroll when overlays are open */
+.no-scroll {
+  overflow: hidden;
+  height: 100dvh;
+}
+
 * {
   box-sizing: border-box;
 

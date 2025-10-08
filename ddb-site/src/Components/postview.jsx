@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function PostView({
   openWindow,
@@ -17,6 +17,18 @@ export default function PostView({
     pointerEvents: "auto",
     transition: "transform 0.2s ease-in-out",
   };
+
+  // Prevent background scroll when post view is open
+  useEffect(() => {
+    if (openWindow) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [openWindow]);
 
   if (!choosedData) {
     return null; // или можно показать "Выберите пост"

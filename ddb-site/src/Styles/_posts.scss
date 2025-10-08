@@ -14,7 +14,7 @@
 
   /* Ensure bottom buttons are not pushed off-screen on small phones */
   @media (max-width: 600px) {
-    padding-bottom: 16px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
   &::-webkit-scrollbar {
