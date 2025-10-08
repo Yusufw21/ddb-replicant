@@ -2653,6 +2653,9 @@ body:has(.modal-overlay) {
   padding: 1rem 2.5rem;
   height: 6rem;
   margin: 20px auto 0 auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -2666,11 +2669,6 @@ body:has(.modal-overlay) {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 3s ease;
   animation: gradientShift 3s ease infinite;
-}
-.map-buttonp {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-wrap: nowrap;
 }
 .map-button:hover {
   transform: translateY(-2px);

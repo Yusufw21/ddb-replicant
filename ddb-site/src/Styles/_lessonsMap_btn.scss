@@ -7,12 +7,9 @@
   padding: 1rem 2.5rem;
   height: 6rem;
   margin: 20px auto 0 auto;
-
-  &p {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
-  }
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
 
   font-size: 1rem;
   font-weight: 600;
