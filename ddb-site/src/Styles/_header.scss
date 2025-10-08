@@ -6,7 +6,8 @@
     flex-direction: column;
     position: relative;
     /* Ensure bottom safe area padding so last elements don't touch device edges */
-    padding-bottom: env(safe-area-inset-bottom, 16px);
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    overscroll-behavior-y: contain;
 
     &__header {
       height: 72px;

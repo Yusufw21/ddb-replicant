@@ -28,6 +28,11 @@ body {
 .no-scroll {
   overflow: hidden;
   height: 100dvh;
+  overscroll-behavior: none;
+}
+
+html, body {
+  min-height: 100%;
 }
 
 * {
