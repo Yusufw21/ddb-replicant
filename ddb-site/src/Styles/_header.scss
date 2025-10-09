@@ -8,7 +8,7 @@
     position: relative;
     padding-bottom: max(24px, env(safe-area-inset-bottom));
     overscroll-behavior-y: contain;
-    height: auto;
+    height: 120vh;
 
     &__header {
       height: 72px;
