@@ -10,7 +10,7 @@
     position: relative;
     padding-bottom: max(24px, env(safe-area-inset-bottom));
     overscroll-behavior-y: contain;
-    height: 100vh;
+    height: auto;
   }
   .website__header {
     height: 72px;
@@ -2017,12 +2017,12 @@
   font-family: "Montserrat";
   font-size: clamp(15px, 7vw, 44px);
   letter-spacing: 0.5em;
-  margin: 20px 0 15px 0;
+  margin: 50px 0 15px 0;
 }
 
 @media (max-width: 650px) {
   .website__posts-title {
-    margin: 20px 0 30px 0;
+    margin: 70px 0 30px 0;
   }
 }
 @keyframes float {
@@ -2862,7 +2862,7 @@ body:has(.modal-overlay) {
   max-width: clamp(14rem, 25vw, 40rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  margin: 25px auto 16px auto;
+  margin: 40px auto 36px auto;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-wrap: nowrap;
