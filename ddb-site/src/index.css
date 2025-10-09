@@ -10,7 +10,7 @@
     position: relative;
     padding-bottom: max(24px, env(safe-area-inset-bottom));
     overscroll-behavior-y: contain;
-    height: 100vh;
+    height: 100%;
   }
   .website__header {
     height: 72px;
@@ -18,9 +18,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: sticky;
-    top: 0;
-    z-index: 8;
+    position: relative;
+    z-index: 10000;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.6);
@@ -94,7 +93,7 @@
   }
   .website__mobilemenu {
     position: fixed;
-    z-index: 7;
+    z-index: 9999;
     top: 0;
     left: 0;
     width: 100vw;
