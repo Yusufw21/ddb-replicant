@@ -35,7 +35,6 @@ export default function EditPosts({ posts, setPosts }) {
     checkAuth();
   }, []);
 
-  // 🔒 Блокировка скролла при открытии модалки
   useEffect(() => {
     if (editingPost) {
       document.body.style.overflow = "hidden";
@@ -75,7 +74,6 @@ export default function EditPosts({ posts, setPosts }) {
     else setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔹 Удаление поста
   const deletePost = async (id) => {
     if (!window.confirm("Вы уверены, что хотите удалить этот пост?")) return;
 
@@ -93,7 +91,6 @@ export default function EditPosts({ posts, setPosts }) {
     }
   };
 
-  // 🔹 Редактирование поста
   const submitEdit = async (e) => {
     e.preventDefault();
     if (!editingPost) return;

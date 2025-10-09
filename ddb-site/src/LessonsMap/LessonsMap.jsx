@@ -29,37 +29,29 @@ export default function LessonsMap() {
     },
   ];
 
-  // Блокировка скролла при открытой модалке
   useEffect(() => {
     if (modalImage) {
-      // Запоминаем текущую позицию скролла
       const scrollY = window.scrollY;
 
-      // Блокируем скролл
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
 
-      // Компенсируем ширину скроллбара
       const scrollbarWidth =
         window.innerWidth - document.documentElement.clientWidth;
       if (scrollbarWidth > 0) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
       }
 
-      // Сохраняем позицию для восстановления
       document.body.dataset.scrollY = scrollY;
 
       return () => {
-        // Восстанавливаем стили
         document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";
 
-        // Восстанавливаем позицию скролла
         const savedScrollY = parseInt(document.body.dataset.scrollY || "0", 10);
         delete document.body.dataset.scrollY;
 
-        // Используем setTimeout чтобы гарантировать восстановление после рендера
         setTimeout(() => {
           window.scrollTo(0, savedScrollY);
         }, 0);
@@ -67,7 +59,6 @@ export default function LessonsMap() {
     }
   }, [modalImage]);
 
-  // Закрытие по Escape
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape" && modalImage) {
@@ -153,20 +144,17 @@ export default function LessonsMap() {
   return (
     <>
       <div className="lessons-container">
-        {/* Анимированный фон */}
         <div className="animated-bg">
           <div className="bg-shape shape-1"></div>
           <div className="bg-shape shape-2"></div>
           <div className="bg-shape shape-3"></div>
         </div>
 
-        {/* Кнопка назад */}
         <button className="close-button" onClick={() => window.history.back()}>
           <ArrowLeft size={20} />
           <span>Асосӣ</span>
         </button>
 
-        {/* Заголовок */}
         <div className="lessons-header">
           <div className="header-decoration"></div>
           <h1 className="header-title">
@@ -176,7 +164,6 @@ export default function LessonsMap() {
           <p className="header-subtitle">Нақшаи таълимии семестр</p>
         </div>
 
-        {/* Сетка карточек */}
         <div className="lessons-content">
           {lessons.map((lesson, index) => (
             <div
@@ -184,7 +171,6 @@ export default function LessonsMap() {
               className="lesson-card"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Заголовок карточки */}
               <div className="card-header" style={{ background: lesson.color }}>
                 <div className="card-icon">{lesson.icon}</div>
                 <div className="card-title-wrapper">
@@ -193,7 +179,6 @@ export default function LessonsMap() {
                 </div>
               </div>
 
-              {/* Изображение */}
               <div
                 className="card-image-wrapper"
                 onClick={() => openModal(lesson.image)}
@@ -217,7 +202,6 @@ export default function LessonsMap() {
                 </div>
               </div>
 
-              {/* Футер */}
               <div className="card-footer">
                 <button
                   className="btn-view"
@@ -231,7 +215,6 @@ export default function LessonsMap() {
         </div>
       </div>
 
-      {/* Модальное окно через Portal */}
       {modalImage &&
         createPortal(
           <div className="modal-overlay" onClick={closeModal}>

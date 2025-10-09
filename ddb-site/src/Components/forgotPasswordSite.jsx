@@ -77,7 +77,6 @@ export default function ForgotPasswordSite() {
 
         <aside className="Forget-block__wrapper">
           <form className="Forget-block__formcase" onSubmit={handleSubmit}>
-            {/* KEYCODE */}
             <div className="Forget-block__input-group">
               <label htmlFor="keycode" className="Forget-block__keycodelabel">
                 Калиди системавиро ворид созед
@@ -94,7 +93,6 @@ export default function ForgotPasswordSite() {
               </div>
             </div>
 
-            {/* NEW PASSWORD */}
             <div className="Forget-block__input-group">
               <label
                 htmlFor="newPassword"
@@ -120,7 +118,6 @@ export default function ForgotPasswordSite() {
             </button>
           </form>
 
-          {/* Ошибка */}
           {error && (
             <div className="ps-error">
               <div className="ps-error__icon">⚠</div>

@@ -7,7 +7,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(true);
 
   const handleClose = () => {
-    navigate("/"); // или window.history.back(), или другая логика
+    navigate("/");
   };
 
   function openForgotPassword() {
@@ -27,7 +27,6 @@ export default function LoginScreen() {
           setLoading(false);
         }
       } catch (e) {
-        // игнорируем: просто остаёмся на странице логина
         console.error("auth-status check failed", e);
       }
     };

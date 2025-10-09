@@ -29,7 +29,6 @@ export function b2_counter({
       set_b1_key3((prev) => prev + 1);
     }, 1000);
 
-    // Очистка интервалов при размонтировании
     return () => {
       clearInterval(counter1_interval);
       clearInterval(counter2_interval);

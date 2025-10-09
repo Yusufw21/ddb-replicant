@@ -1,21 +1,38 @@
+@mixin gpu-accelerated {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 .admin {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(-45deg, #3b82f6, #1e40af, #1e293b, #0f172a);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(180deg, #1e40af 0%, #0f172a 100%);
   padding: 24px;
   font-family: "Circular Std", "Helvetica Neue", -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #ffffff;
   line-height: 1.5;
-  backdrop-filter: blur(20px);
   position: relative;
+  overflow-x: hidden;
+
+  // Легкое затемнение по краям (статичное)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 70%
+    );
+    pointer-events: none;
+  }
 
   &__logout {
-    all: unset; // убираем дефолтные стили
+    all: unset;
     position: absolute;
     top: 20px;
     right: 40px;
@@ -23,29 +40,29 @@
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: linear-gradient(135deg, #6ec1ff, #4a6fff);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     font-weight: 600;
     font-size: 14px;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    @include gpu-accelerated;
 
     svg {
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease;
     }
 
     &:active {
-      transform: translateY(1px);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+      transform: translateY(1px) translateZ(0);
+      box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
     }
 
-    @media (min-width: 1060px) {
+    @media (hover: hover) {
       &:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        background: linear-gradient(135deg, #7fd1ff, #5a7fff);
+        transform: translateY(-2px) translateZ(0);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 
         svg {
           transform: scale(1.05);
@@ -54,68 +71,36 @@
     }
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      ellipse at center,
-      transparent 0%,
-      rgba(0, 0, 0, 0.2) 70%
-    );
-    pointer-events: none;
-  }
-
   .admin__card {
     width: 100%;
     max-width: 560px;
-    background: rgba(18, 18, 18, 0.95);
+    background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    transform: scale(0.95);
-    animation: cardAppear 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    animation: cardSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
     position: relative;
-    overflow: hidden;
+    @include gpu-accelerated;
+
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
 
     &::before {
       content: "";
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: 20%;
+      right: 20%;
       height: 1px;
       background: linear-gradient(
         90deg,
         transparent,
-        rgba(59, 130, 246, 0.5),
+        rgba(59, 130, 246, 0.4),
         transparent
       );
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: conic-gradient(
-        from 0deg,
-        transparent,
-        rgba(59, 130, 246, 0.1),
-        transparent
-      );
-      animation: rotate 20s linear infinite;
-      pointer-events: none;
-      z-index: -1;
     }
   }
 
@@ -123,13 +108,14 @@
     text-align: center;
     margin-bottom: 32px;
     position: relative;
-    z-index: 10;
+    flex-shrink: 0;
 
     .admin__header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
+      gap: 12px;
     }
 
     h1 {
@@ -138,7 +124,7 @@
       margin: 0;
       color: #ffffff;
       letter-spacing: -0.02em;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      line-height: 1.2;
       background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -156,40 +142,29 @@
       text-decoration: none;
       font-size: 20px;
       font-weight: bold;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
-      overflow: hidden;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border-radius: 50%;
-        background: transparent;
-      }
+      flex-shrink: 0;
+      @include gpu-accelerated;
 
       &::after {
         content: "×";
         font-size: 24px;
-        transition: transform 0.2s ease;
       }
 
-      &:hover {
-        background: rgba(239, 68, 68, 0.9);
-        color: white;
-        border-color: rgba(239, 68, 68, 0.5);
-        transform: scale(1.1) rotate(90deg);
-        box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(239, 68, 68, 0.9);
+          border-color: rgba(239, 68, 68, 0.5);
+          transform: scale(1.1) translateZ(0);
+          box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+        }
       }
 
       &:active {
-        transform: scale(0.95) rotate(90deg);
+        transform: scale(0.95) translateZ(0);
       }
     }
 
@@ -209,30 +184,38 @@
       padding: 8px 16px;
       border-radius: 20px;
       border: 1px solid rgba(59, 130, 246, 0.3);
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-      background: rgba(59, 130, 246, 0.1);
+      transition: all 0.25s ease;
+      background: rgba(59, 130, 246, 0.15);
       color: #3b82f6;
+      @include gpu-accelerated;
 
-      &:hover {
-        color: #fff;
-        background: rgba(59, 130, 246, 0.8);
-        border-color: rgba(59, 130, 246, 0.8);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+      @media (hover: hover) {
+        &:hover {
+          color: #fff;
+          background: rgba(59, 130, 246, 0.8);
+          border-color: rgba(59, 130, 246, 0.8);
+          transform: translateY(-2px) translateZ(0);
+          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        }
+      }
+
+      &:active {
+        transform: translateY(0) translateZ(0);
       }
     }
 
     .admin__syllabus-link {
-      background: rgba(34, 197, 94, 0.1);
+      background: rgba(34, 197, 94, 0.15);
       border-color: rgba(34, 197, 94, 0.3);
       color: #22c55e;
 
-      &:hover {
-        background: rgba(34, 197, 94, 0.8);
-        border-color: rgba(34, 197, 94, 0.8);
-        color: #fff;
-        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+      @media (hover: hover) {
+        &:hover {
+          background: rgba(34, 197, 94, 0.8);
+          border-color: rgba(34, 197, 94, 0.8);
+          color: #fff;
+          box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
+        }
       }
     }
   }
@@ -240,94 +223,88 @@
   .admin__form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     position: relative;
-    z-index: 10;
+    flex: 1;
 
     input[type="file"] {
       font-size: 15px;
       padding: 0;
       color: #e2e8f0;
       background: transparent;
-      border: 2px dashed rgba(59, 130, 246, 0.5);
+      border: 2px dashed rgba(59, 130, 246, 0.4);
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
 
-      &:hover {
-        border-color: rgba(59, 130, 246, 0.8);
-        background: rgba(59, 130, 246, 0.05);
+      @media (hover: hover) {
+        &:hover {
+          border-color: rgba(59, 130, 246, 0.6);
+          background: rgba(59, 130, 246, 0.05);
+        }
       }
 
       &::file-selector-button {
         padding: 16px 24px;
         border: none;
         border-radius: 10px 0 0 10px;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.2),
-          rgba(59, 130, 246, 0.3)
-        );
+        background: rgba(59, 130, 246, 0.2);
         color: #e2e8f0;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
         margin-right: 16px;
         border-right: 1px solid rgba(59, 130, 246, 0.3);
       }
 
-      &::file-selector-button:hover {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        color: white;
-        transform: translateX(2px);
+      @media (hover: hover) {
+        &::file-selector-button:hover {
+          background: rgba(59, 130, 246, 0.8);
+          color: white;
+        }
       }
 
       &::-webkit-file-upload-button {
         padding: 16px 24px;
         border: none;
         border-radius: 10px 0 0 10px;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.2),
-          rgba(59, 130, 246, 0.3)
-        );
+        background: rgba(59, 130, 246, 0.2);
         color: #e2e8f0;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
         margin-right: 16px;
         border-right: 1px solid rgba(59, 130, 246, 0.3);
       }
 
-      &::-webkit-file-upload-button:hover {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        color: white;
-        transform: translateX(2px);
+      @media (hover: hover) {
+        &::-webkit-file-upload-button:hover {
+          background: rgba(59, 130, 246, 0.8);
+          color: white;
+        }
       }
 
       &::-moz-file-upload-button {
         padding: 16px 24px;
         border: none;
         border-radius: 10px 0 0 10px;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.2),
-          rgba(59, 130, 246, 0.3)
-        );
+        background: rgba(59, 130, 246, 0.2);
         color: #e2e8f0;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
         margin-right: 16px;
         border-right: 1px solid rgba(59, 130, 246, 0.3);
       }
 
-      &::-moz-file-upload-button:hover {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        color: white;
+      @media (hover: hover) {
+        &::-moz-file-upload-button:hover {
+          background: rgba(59, 130, 246, 0.8);
+          color: white;
+        }
       }
     }
 
@@ -342,69 +319,53 @@
       outline: none;
       background: rgba(255, 255, 255, 0.05);
       color: #ffffff;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      @include gpu-accelerated;
 
       &:focus {
-        border-color: rgba(59, 130, 246, 0.6);
+        border-color: rgba(59, 130, 246, 0.5);
         background: rgba(59, 130, 246, 0.1);
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2),
-          0 4px 16px rgba(59, 130, 246, 0.3);
-        transform: translateY(-2px);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        transform: translateY(-1px) translateZ(0);
       }
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.4);
       }
     }
 
     textarea {
       min-height: 120px;
+      max-height: 300px;
       resize: vertical;
     }
 
     button {
       padding: 16px 24px;
-      background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
       color: white;
       border: none;
       border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
       position: relative;
-      overflow: hidden;
+      margin-top: auto;
+      @include gpu-accelerated;
 
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-
-      &:hover {
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.6);
-
-        &::before {
-          left: 100%;
+      @media (hover: hover) {
+        &:hover {
+          background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+          transform: translateY(-2px) translateZ(0);
+          box-shadow: 0 8px 28px rgba(59, 130, 246, 0.5);
         }
       }
 
       &:active {
-        transform: translateY(0) scale(0.98);
+        transform: translateY(0) scale(0.98) translateZ(0);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
       }
     }
   }
@@ -415,136 +376,50 @@
     font-weight: 500;
     text-align: center;
     padding: 16px 20px;
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.15);
     border-radius: 12px;
     border: 1px solid rgba(239, 68, 68, 0.3);
     margin-top: 16px;
-    backdrop-filter: blur(10px);
-    animation: errorPulse 0.5s ease, fadeOut 4s 2s forwards;
+    animation: errorSlide 0.3s ease both, errorFade 4s 2s forwards;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  @keyframes cardAppear {
-    0% {
-      transform: scale(0.8) translateY(40px);
+  @keyframes cardSlideUp {
+    from {
       opacity: 0;
+      transform: translateY(30px) translateZ(0);
     }
-    100% {
-      transform: scale(1) translateY(0);
+    to {
       opacity: 1;
+      transform: translateY(0) translateZ(0);
     }
   }
 
-  @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
+  @keyframes errorSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
     }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes errorPulse {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.02);
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  @keyframes fadeOut {
+  @keyframes errorFade {
     0%,
     90% {
       opacity: 1;
     }
     100% {
       opacity: 0;
+      pointer-events: none;
     }
   }
 
-  @media (max-width: 600px) {
-    padding: 16px;
-
-    .admin__card {
-      padding: 32px 24px;
-      border-radius: 16px;
-      max-width: 100%;
-    }
-
-    .admin__header {
-      margin-bottom: 28px;
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .admin__header-top {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .admin__manage-link,
-      .admin__syllabus-link {
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-    }
-
-    .admin__form {
-      gap: 20px;
-
-      input[type="text"],
-      textarea,
-      button {
-        padding: 14px 18px;
-        font-size: 15px;
-      }
-
-      input[type="file"] {
-        padding: 0;
-
-        &::file-selector-button,
-        &::-webkit-file-upload-button,
-        &::-moz-file-upload-button {
-          padding: 14px 16px;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    .admin__card {
-      padding: 24px 20px;
-    }
-
-    .admin__header {
-      .admin__header-top {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .admin__close-btn {
-        position: absolute;
-        top: -16px;
-        right: -16px;
-      }
-    }
-  }
-
-  // В конец файла, перед медиа-запросами
   .admin__loader {
     display: flex;
     justify-content: center;
@@ -559,18 +434,139 @@
     border-top-color: #3b82f6;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    @include gpu-accelerated;
   }
 
   @keyframes spin {
     to {
-      transform: rotate(360deg);
+      transform: rotate(360deg) translateZ(0);
     }
   }
 
-  @media (prefers-color-scheme: dark) {
+  @media (max-width: 600px) {
+    padding: 16px;
+
+    &__logout {
+      top: 16px;
+      right: 16px;
+      padding: 8px 12px;
+      font-size: 13px;
+      gap: 6px;
+    }
+
     .admin__card {
-      background: rgba(15, 23, 42, 0.95);
-      border-color: rgba(255, 255, 255, 0.05);
+      padding: 32px 24px;
+      border-radius: 16px;
+      max-width: 100%;
+      min-height: 380px;
+    }
+
+    .admin__header {
+      margin-bottom: 24px;
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .admin__header-top {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .admin__close-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+
+        &::after {
+          font-size: 22px;
+        }
+      }
+
+      .admin__manage-link,
+      .admin__syllabus-link {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+
+    .admin__form {
+      gap: 18px;
+
+      input[type="text"],
+      textarea,
+      button {
+        padding: 14px 18px;
+        font-size: 15px;
+      }
+
+      input[type="file"] {
+        &::file-selector-button,
+        &::-webkit-file-upload-button,
+        &::-moz-file-upload-button {
+          padding: 14px 16px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px;
+
+    &__logout {
+      top: 12px;
+      right: 12px;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .admin__card {
+      padding: 24px 20px;
+      border-radius: 14px;
+      min-height: 360px;
+    }
+
+    .admin__header {
+      margin-bottom: 20px;
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .admin__header-top {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .admin__close-btn {
+        width: 34px;
+        height: 34px;
+      }
+    }
+
+    .admin__form {
+      gap: 16px;
+
+      input[type="text"],
+      textarea {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 13px 20px;
+        font-size: 14px;
+      }
+
+      textarea {
+        min-height: 100px;
+      }
+    }
+
+    .admin__error {
+      font-size: 13px;
+      padding: 14px 16px;
     }
   }
 
@@ -582,9 +578,11 @@
     .admin__syllabus-link,
     .admin__form input,
     .admin__form textarea,
-    .admin__form button {
-      animation: none !important;
-      transition: none !important;
+    .admin__form button,
+    .admin__spinner {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }

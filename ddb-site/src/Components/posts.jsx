@@ -17,7 +17,6 @@ export function Posts({
     justifyContent: "center",
   };
 
-  // если постов нет
   if (!posts || posts.length === 0) {
     return (
       <article style={containerNonStyle} className="website__postbox">
@@ -48,7 +47,6 @@ export function Posts({
   );
 }
 
-// компонент для содержимого поста
 function PostContent({ post }) {
   return (
     <>

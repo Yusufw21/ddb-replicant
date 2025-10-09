@@ -6,7 +6,6 @@
   max-width: clamp(14rem, 25vw, 40rem);
   padding: 1rem 2.5rem;
   height: 6rem;
-  /* Keep distance from surrounding content and the viewport bottom */
   margin: 40px auto 36px auto;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -21,7 +20,7 @@
 
   border: none;
   border-radius: 16px;
-  background: linear-gradient(135deg, #4f46e5, #3b82f6); // спокойный градиент
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
   background-size: 200% 200%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 
@@ -46,7 +45,6 @@
   }
 }
 
-// Анимация градиента
 @keyframes gradientShift {
   0%,
   100% {
@@ -57,7 +55,6 @@
   }
 }
 
-// Адаптив
 @media (max-width: 768px) {
   .map-button {
     padding: 0.875rem 2rem;
@@ -73,14 +70,12 @@
   }
 }
 
-/* Avoid pushing buttons off the bottom on small screens */
 @media (max-width: 600px) {
   .map-button {
     margin: 40px auto 28px auto;
   }
 }
 
-/* Short viewport height: add extra breathing room above bottom */
 @media (max-height: 700px) {
   .map-button {
     margin-bottom: 40px;
