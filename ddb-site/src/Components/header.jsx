@@ -22,7 +22,10 @@ export function Header({ isDesktop, isMobile, isTablet, menu, setMenu }) {
 
           <h4 className="website__header__wrapper__title">Тех - иттилооти</h4>
 
-          <button className="website__header__wrapper__search"></button>
+          <button
+            onClick={() => alert("Дар таҳия")}
+            className="website__header__wrapper__search"
+          ></button>
         </header>
       )}
     </header>

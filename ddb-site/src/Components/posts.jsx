@@ -55,13 +55,7 @@ function PostContent({ post }) {
       <div className="website__post__top">
         <h6 className="website__post__top__name">{post.name}</h6>
       </div>
-      <div className="website__post__bottom">
-        <div className="website__post__bottom__topblock">
-          <h5 className="website__post__bottom__topblock__descr">
-            {post.descr}
-          </h5>
-        </div>
-      </div>
+      <div className="website__post__bottom"></div>
       {post.imagePath && (
         <img
           className="website__post__bg"
