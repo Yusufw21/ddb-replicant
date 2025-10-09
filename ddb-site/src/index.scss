@@ -13,14 +13,7 @@
 @use "./Sylabus_Edits/sylabus_edits.module" as *;
 body {
   margin: 0;
-  background: linear-gradient(
-    125deg,
-    #fffaf7 0%,
-    #f8e9e1 25%,
-    #e8d9d0 50%,
-    #d0e0dd 75%,
-    #c2d5d8 100%
-  );
+  background: linear-gradient(180deg, #1e40af 0%, #0f172a 100%);
   position: relative;
 }
 

@@ -1518,32 +1518,6 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  color: #e6eefc;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.45;
-  background: linear-gradient(180deg, #1e40af 0%, #0f172a 100%);
-  position: relative;
-}
-@media (min-width: 769px) {
-  html::before,
-  body::before,
-  #root::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(30, 64, 175, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-}
-
 .ep-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -4732,7 +4706,7 @@ body:has(.modal-overlay) {
 }
 body {
   margin: 0;
-  background: linear-gradient(125deg, #fffaf7 0%, #f8e9e1 25%, #e8d9d0 50%, #d0e0dd 75%, #c2d5d8 100%);
+  background: linear-gradient(180deg, #1e40af 0%, #0f172a 100%);
   position: relative;
 }
 
