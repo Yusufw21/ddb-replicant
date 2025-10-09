@@ -1,86 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
-$primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-$secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-$tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-
+$primary-color: #667eea;
+$primary-light: #a8b9ff;
 $white: #ffffff;
-$white-10: rgba(255, 255, 255, 0.1);
-$white-05: rgba(255, 255, 255, 0.05);
-$white-03: rgba(255, 255, 255, 0.03);
 $white-70: rgba(255, 255, 255, 0.7);
 $white-60: rgba(255, 255, 255, 0.6);
 $white-50: rgba(255, 255, 255, 0.5);
 $white-30: rgba(255, 255, 255, 0.3);
-
-$primary-color: #667eea;
-$primary-light: #a8b9ff;
-$primary-alpha-10: rgba(102, 126, 234, 0.1);
+$white-10: rgba(255, 255, 255, 0.1);
+$white-05: rgba(255, 255, 255, 0.05);
 $primary-alpha-20: rgba(102, 126, 234, 0.2);
 $primary-alpha-30: rgba(102, 126, 234, 0.3);
 $primary-alpha-40: rgba(102, 126, 234, 0.4);
-$primary-alpha-50: rgba(102, 126, 234, 0.5);
-
-$error-color: #ef4444;
-$error-alpha-20: rgba(239, 68, 68, 0.2);
-$error-alpha-30: rgba(239, 68, 68, 0.3);
-
-$shadow-sm: 0 8px 30px rgba(102, 126, 234, 0.4);
-$shadow-md: 0 15px 45px rgba(0, 0, 0, 0.25);
-$shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
-$shadow-primary: 0 15px 45px rgba(102, 126, 234, 0.35);
-
-$border-radius-sm: 10px;
-$border-radius-md: 16px;
-$border-radius-lg: 18px;
-$border-radius-full: 50px;
-
-$transition-base: all 0.3s ease;
-$transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
 $breakpoint-sm: 480px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1400px;
-
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-@mixin absolute-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-@mixin glass-effect {
-  background: $white-05;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid $white-10;
-}
-
-@mixin text-gradient($gradient) {
-  background: $gradient;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-@mixin responsive($breakpoint) {
-  @media (max-width: $breakpoint) {
-    @content;
-  }
-}
 
 .syllabus-container {
   min-height: 100vh;
@@ -91,48 +27,12 @@ $breakpoint-xl: 1400px;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   * {
     box-sizing: border-box;
   }
 
-  &::before {
-    content: "";
-    @include absolute-fill;
-    background: radial-gradient(
-        circle at 20% 50%,
-        rgba(102, 126, 234, 0.12) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 80% 80%,
-        rgba(138, 43, 226, 0.08) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 40% 20%,
-        rgba(72, 149, 239, 0.08) 0%,
-        transparent 50%
-      );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &::after {
-    content: "";
-    @include absolute-fill;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.015) 50%,
-      transparent 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  @include responsive($breakpoint-sm) {
+  @media (max-width: $breakpoint-sm) {
     padding: 1rem;
   }
 
@@ -140,56 +40,36 @@ $breakpoint-xl: 1400px;
     position: absolute;
     top: 1.5rem;
     left: 1.5rem;
-    @include flex-center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.7rem 1.35rem;
-    @include glass-effect;
+    background: $white-05;
+    border: 1px solid $white-10;
     border-radius: 50px;
     text-decoration: none;
     color: $white;
     font-weight: 600;
     font-size: 0.875rem;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     z-index: 100;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-
-    &::before {
-      content: "";
-      @include absolute-fill;
-      background: $primary-gradient;
-      opacity: 0;
-      border-radius: 50px;
-      transition: opacity 0.3s;
-      z-index: -1;
-    }
 
     &:hover {
       transform: translateX(-4px);
       border-color: $white-30;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-
-      &::before {
-        opacity: 0.15;
-      }
-
-      .back-icon {
-        transform: translateX(-2px);
-      }
+      background: rgba(102, 126, 234, 0.15);
     }
 
-    &:active {
-      transform: translateX(-4px) scale(0.97);
-    }
-
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       top: 1rem;
       left: 1rem;
       padding: 0.6rem 1.15rem;
       font-size: 0.825rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       padding: 0.5rem 0.95rem;
       font-size: 0.8rem;
 
@@ -202,9 +82,8 @@ $breakpoint-xl: 1400px;
   .back-icon {
     width: 18px;
     height: 18px;
-    transition: transform 0.3s;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       width: 16px;
       height: 16px;
     }
@@ -217,12 +96,12 @@ $breakpoint-xl: 1400px;
     padding: 2.5rem 1.5rem;
     z-index: 1;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       padding: 2rem 1rem;
       margin-bottom: 2rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       padding: 1.5rem 0.75rem;
       margin-bottom: 1.5rem;
     }
@@ -234,51 +113,29 @@ $breakpoint-xl: 1400px;
   }
 
   .icon-wrapper {
-    @include flex-center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 70px;
     height: 70px;
-    background: $primary-gradient;
-    border-radius: $border-radius-md;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
     margin: 0 auto 1.25rem;
-    box-shadow: $shadow-primary;
+    box-shadow: 0 15px 45px rgba(102, 126, 234, 0.35);
     position: relative;
-    transition: $transition-smooth;
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea);
-      border-radius: $border-radius-lg;
-      z-index: -1;
-      opacity: 0;
-    }
-
-    &::after {
-      content: "";
-      @include absolute-fill;
-      background: radial-gradient(circle, $white-30 0%, transparent 70%);
-      border-radius: $border-radius-md;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    transition: transform 0.3s ease;
 
     &:hover {
-      transform: scale(1.08) rotate(4deg);
-      box-shadow: 0 20px 55px rgba(102, 126, 234, 0.5);
-
-      &::after {
-        opacity: 1;
-      }
+      transform: scale(1.05);
     }
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       width: 58px;
       height: 58px;
       margin-bottom: 1rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 52px;
       height: 52px;
     }
@@ -288,15 +145,14 @@ $breakpoint-xl: 1400px;
     width: 36px;
     height: 36px;
     color: $white;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
     z-index: 1;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       width: 30px;
       height: 30px;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 26px;
       height: 26px;
     }
@@ -305,12 +161,12 @@ $breakpoint-xl: 1400px;
   .header-title {
     font-size: clamp(1.85rem, 4.5vw, 3.25rem);
     font-weight: 800;
-    @include text-gradient(
-      linear-gradient(135deg, $white 0%, $primary-light 100%)
-    );
+    background: linear-gradient(135deg, $white 0%, $primary-light 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
-    text-shadow: 0 0 35px rgba(168, 185, 255, 0.4);
     position: relative;
 
     &::after {
@@ -321,16 +177,16 @@ $breakpoint-xl: 1400px;
       transform: translateX(-50%);
       width: 85px;
       height: 3px;
-      background: $primary-gradient;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-radius: 2px;
       opacity: 0.6;
 
-      @include responsive($breakpoint-md) {
+      @media (max-width: $breakpoint-md) {
         width: 60px;
         height: 2.5px;
       }
 
-      @include responsive($breakpoint-sm) {
+      @media (max-width: $breakpoint-sm) {
         width: 50px;
       }
     }
@@ -343,85 +199,8 @@ $breakpoint-xl: 1400px;
     letter-spacing: 0.015em;
     margin-top: 1.35rem;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       margin-top: 1.15rem;
-    }
-  }
-
-  .header-decoration {
-    @include absolute-fill;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  .decoration-circle {
-    position: absolute;
-    border-radius: $border-radius-full;
-    opacity: 0.08;
-    filter: blur(35px);
-
-    &.circle-1 {
-      width: 280px;
-      height: 280px;
-      background: $primary-gradient;
-      top: -45px;
-      right: -90px;
-    }
-
-    &.circle-2 {
-      width: 180px;
-      height: 180px;
-      background: $secondary-gradient;
-      bottom: -45px;
-      left: -45px;
-    }
-
-    &.circle-3 {
-      width: 135px;
-      height: 135px;
-      background: $tertiary-gradient;
-      top: 50%;
-      left: -65px;
-    }
-
-    @include responsive($breakpoint-md) {
-      &.circle-1 {
-        width: 200px;
-        height: 200px;
-      }
-
-      &.circle-2 {
-        width: 140px;
-        height: 140px;
-      }
-
-      &.circle-3 {
-        width: 100px;
-        height: 100px;
-      }
-    }
-
-    @include responsive($breakpoint-sm) {
-      &.circle-1 {
-        width: 160px;
-        height: 160px;
-      }
-
-      &.circle-2 {
-        width: 110px;
-        height: 110px;
-      }
-
-      &.circle-3 {
-        width: 80px;
-        height: 80px;
-      }
     }
   }
 
@@ -434,81 +213,44 @@ $breakpoint-xl: 1400px;
     position: relative;
     z-index: 1;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       grid-template-columns: 1fr;
       gap: 1.25rem;
       margin-bottom: 2rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
   }
 
   .stat-card {
-    @include glass-effect;
-    border-radius: $border-radius-md;
+    background: $white-05;
+    border: 1px solid $white-10;
+    border-radius: 16px;
     padding: 1.75rem;
     display: flex;
     align-items: center;
     gap: 1.35rem;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-
-    &::before {
-      content: "";
-      @include absolute-fill;
-      background: linear-gradient(90deg, transparent, $white-10, transparent);
-      transform: translateX(-100%);
-      transition: transform 0.5s;
-    }
-
-    &::after {
-      content: "";
-      @include absolute-fill;
-      background: $primary-gradient;
-      opacity: 0;
-      transition: opacity 0.35s;
-      z-index: 0;
-    }
 
     &:hover {
       transform: translateY(-4px);
       border-color: $white-30;
-      box-shadow: $shadow-md;
-
-      &::before {
-        transform: translateX(100%);
-      }
-
-      &::after {
-        opacity: 0.04;
-      }
-
-      .stat-icon {
-        transform: scale(1.08) rotate(4deg);
-        background: $primary-alpha-30;
-      }
-
-      .stat-number {
-        @include text-gradient($primary-gradient);
-      }
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+      background: rgba(102, 126, 234, 0.08);
     }
 
-    &:active {
-      transform: translateY(-2px);
-    }
-
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       padding: 1.5rem;
       gap: 1.15rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       padding: 1.25rem;
       gap: 1rem;
     }
@@ -520,13 +262,13 @@ $breakpoint-xl: 1400px;
     color: $primary-color;
     padding: 10px;
     background: $primary-alpha-20;
-    border-radius: $border-radius-sm;
+    border-radius: 10px;
     flex-shrink: 0;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     position: relative;
     z-index: 1;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 40px;
       height: 40px;
       padding: 9px;
@@ -534,7 +276,8 @@ $breakpoint-xl: 1400px;
   }
 
   .stat-content {
-    @include flex-column;
+    display: flex;
+    flex-direction: column;
     gap: 0.25rem;
     position: relative;
     z-index: 1;
@@ -545,9 +288,9 @@ $breakpoint-xl: 1400px;
     font-weight: 700;
     color: $white;
     line-height: 1;
-    transition: $transition-base;
+    transition: all 0.3s ease;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 1.6rem;
     }
   }
@@ -559,7 +302,7 @@ $breakpoint-xl: 1400px;
     letter-spacing: 0.04em;
     font-weight: 500;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 0.8rem;
     }
   }
@@ -574,13 +317,13 @@ $breakpoint-xl: 1400px;
     z-index: 1;
     align-items: start;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       grid-template-columns: 1fr;
       gap: 1.25rem;
       margin-bottom: 2rem;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
@@ -594,97 +337,43 @@ $breakpoint-xl: 1400px;
 
   .teacher-card {
     position: relative;
-    @include glass-effect;
-    border-radius: $border-radius-md;
+    background: $white-05;
+    border: 1px solid $white-10;
+    border-radius: 16px;
     padding: 1.35rem;
     text-decoration: none;
     overflow: hidden;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     cursor: pointer;
     width: 100%;
     max-width: 310px;
     height: 370px;
     display: flex;
     flex-direction: column;
-    -webkit-tap-highlight-color: transparent;
-
-    &::before {
-      content: "";
-      @include absolute-fill;
-      background: linear-gradient(
-        135deg,
-        $primary-alpha-20 0%,
-        rgba(118, 75, 162, 0.08) 100%
-      );
-      opacity: 0;
-      transition: opacity 0.35s;
-      z-index: 0;
-    }
 
     &:hover {
-      transform: translateY(-6px) scale(1.015);
+      transform: translateY(-6px);
       border-color: $white-30;
-      box-shadow: $shadow-lg, 0 0 0 1px rgba(102, 126, 234, 0.25),
-        inset 0 0 15px $primary-alpha-20;
-
-      &::before {
-        opacity: 1;
-      }
-
-      .card-background {
-        opacity: 1;
-      }
-
-      .avatar {
-        transform: scale(1.08) rotate(4deg);
-        border-color: $white-30;
-        box-shadow: $shadow-sm;
-      }
-
-      .avatar-glow {
-        opacity: 1;
-      }
-
-      .teacher-name {
-        @include text-gradient($primary-gradient);
-      }
-
-      .card-shine {
-        left: 100%;
-      }
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      background: rgba(102, 126, 234, 0.08);
     }
 
-    &:active {
-      transform: translateY(-4px) scale(1.01);
-    }
-
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       padding: 1.25rem;
       height: auto;
       max-width: 100%;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       padding: 1.15rem;
     }
-  }
-
-  .card-background {
-    @include absolute-fill;
-    background: radial-gradient(
-      circle at center,
-      $primary-alpha-20 0%,
-      transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 0.35s;
-    z-index: 0;
   }
 
   .card-content {
     position: relative;
     z-index: 2;
-    @include flex-column;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 0.95rem;
     flex: 1;
@@ -692,7 +381,7 @@ $breakpoint-xl: 1400px;
     overflow: hidden;
     padding-top: 20px;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       padding-top: 15px;
     }
   }
@@ -706,21 +395,27 @@ $breakpoint-xl: 1400px;
   .avatar {
     width: 72px;
     height: 72px;
-    background: $primary-gradient;
-    border-radius: $border-radius-full;
-    @include flex-center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     z-index: 2;
-    transition: $transition-smooth;
+    transition: transform 0.3s ease;
     border: 2.5px solid $white-10;
     box-shadow: 0 4px 18px rgba(102, 126, 234, 0.28);
 
-    @include responsive($breakpoint-md) {
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: $breakpoint-md) {
       width: 64px;
       height: 64px;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 58px;
       height: 58px;
     }
@@ -733,25 +428,15 @@ $breakpoint-xl: 1400px;
     position: relative;
     z-index: 1;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       width: 32px;
       height: 32px;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 29px;
       height: 29px;
     }
-  }
-
-  .avatar-glow {
-    position: absolute;
-    inset: -9px;
-    background: radial-gradient(circle, $primary-alpha-40 0%, transparent 70%);
-    border-radius: $border-radius-full;
-    opacity: 0;
-    transition: opacity 0.35s;
-    z-index: 1;
   }
 
   .teacher-info {
@@ -765,10 +450,10 @@ $breakpoint-xl: 1400px;
     font-weight: 600;
     color: $white;
     margin-bottom: 0.45rem;
-    transition: $transition-base;
+    transition: all 0.3s ease;
     position: relative;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 1rem;
     }
   }
@@ -783,10 +468,10 @@ $breakpoint-xl: 1400px;
     color: $primary-light;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     font-weight: 600;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 0.7rem;
       padding: 0.22rem 0.85rem;
     }
@@ -828,7 +513,7 @@ $breakpoint-xl: 1400px;
       border-bottom: none;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       gap: 0.6rem;
       padding: 0.4rem 0;
     }
@@ -840,7 +525,7 @@ $breakpoint-xl: 1400px;
     width: 15px;
     height: 15px;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       width: 14px;
       height: 14px;
     }
@@ -854,7 +539,7 @@ $breakpoint-xl: 1400px;
     word-break: break-word;
     line-height: 1.3;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 0.825rem;
     }
   }
@@ -868,9 +553,8 @@ $breakpoint-xl: 1400px;
     font-size: 0.735rem;
     cursor: pointer;
     white-space: nowrap;
-    transition: $transition-smooth;
+    transition: all 0.3s ease;
     flex-shrink: 0;
-    -webkit-tap-highlight-color: transparent;
 
     &:hover {
       background: rgba(102, 126, 234, 0.28);
@@ -878,31 +562,10 @@ $breakpoint-xl: 1400px;
       transform: translateY(-1px);
     }
 
-    &:active {
-      transform: translateY(0);
-    }
-
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 0.7rem;
       padding: 0.22rem 0.45rem;
     }
-  }
-
-  .card-shine {
-    @include absolute-fill;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      45deg,
-      transparent 30%,
-      $white-10 50%,
-      transparent 70%
-    );
-    transform: rotate(45deg);
-    transition: all 0.5s;
-    pointer-events: none;
   }
 
   .syllabus-footer {
@@ -913,12 +576,12 @@ $breakpoint-xl: 1400px;
     position: relative;
     z-index: 1;
 
-    @include responsive($breakpoint-md) {
+    @media (max-width: $breakpoint-md) {
       margin-top: 2rem;
       padding: 1.5rem 0;
     }
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       margin-top: 1.5rem;
       padding: 1.25rem 0;
     }
@@ -937,7 +600,7 @@ $breakpoint-xl: 1400px;
     font-size: 0.85rem;
     font-weight: 400;
 
-    @include responsive($breakpoint-sm) {
+    @media (max-width: $breakpoint-sm) {
       font-size: 0.8rem;
     }
   }
@@ -951,7 +614,7 @@ $breakpoint-xl: 1400px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $primary-gradient;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 4px;
 
     &:hover {
@@ -970,16 +633,6 @@ $breakpoint-xl: 1400px;
       outline: 2px solid $primary-color;
       outline-offset: 2px;
     }
-  }
-
-  .syllabus-grid:hover .teacher-card:not(:hover) {
-    opacity: 0.55;
-    transform: scale(0.985);
-  }
-
-  .syllabus-stats:hover .stat-card:not(:hover) {
-    opacity: 0.7;
-    transform: scale(0.985);
   }
 }
 
