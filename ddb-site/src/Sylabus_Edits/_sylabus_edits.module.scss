@@ -20,8 +20,6 @@ $gray-7: #1f2937;
 
 .syllabus-edit-full,
 .syllabus {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea, #764ba2);
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -168,7 +166,6 @@ $gray-7: #1f2937;
   }
 }
 
-// Сетка
 .teachers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -427,6 +424,7 @@ $gray-7: #1f2937;
     background: darken($error, 10%);
   }
 }
+
 .existing-syllabi {
   max-height: 130px;
   overflow-y: auto;
@@ -537,11 +535,6 @@ $gray-7: #1f2937;
 }
 
 @media (prefers-color-scheme: dark) {
-  .syllabus-edit-full,
-  .syllabus {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-  }
-
   .teacher-card {
     background: $gray-7;
     color: white;

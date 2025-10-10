@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { X } from "lucide-react";
 
 export function Header({ isDesktop, isMobile, isTablet, menu, setMenu }) {
   useEffect(() => {
@@ -55,6 +56,29 @@ export function Header({ isDesktop, isMobile, isTablet, menu, setMenu }) {
           />
         </div>
       )}
+
+      {/* Кнопка закрытия ВНЕ меню */}
+      {menu && (
+        <button
+          onClick={() => setMenu(false)}
+          className="website__mobilemenu__close"
+          aria-label="Close menu"
+          style={{
+            position: "fixed",
+            top: "20px",
+            right: "20px",
+            zIndex: 10001,
+          }}
+        >
+          <X size={24} />
+        </button>
+      )}
+
+      <div className={`website__mobilemenu ${menu ? "openmenu" : ""}`}>
+        <div className="website__mobilemenu__block">
+          <div className="website__mobilemenu__block__titlecase"></div>
+        </div>
+      </div>
     </header>
   );
 }

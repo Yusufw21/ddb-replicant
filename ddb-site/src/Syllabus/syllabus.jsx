@@ -140,11 +140,6 @@ export default function Syllabus() {
             Интихоб кунед устодеро барои дидани силлабус
           </p>
         </div>
-        <div className="header-decoration">
-          <div className="decoration-circle circle-1"></div>
-          <div className="decoration-circle circle-2"></div>
-          <div className="decoration-circle circle-3"></div>
-        </div>
       </div>
 
       <div className="syllabus-stats">

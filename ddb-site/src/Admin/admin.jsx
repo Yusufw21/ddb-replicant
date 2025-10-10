@@ -1,4 +1,3 @@
-// AdminPanel.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
@@ -75,7 +74,6 @@ export default function AdminPanel() {
         console.log("✅ Успех:", result.message);
         setError("");
         e.target.reset();
-        // Редирект на главную страницу после успешного добавления
         window.location.href = "/";
       }
     } catch (err) {
