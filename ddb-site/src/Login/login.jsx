@@ -137,7 +137,7 @@ export default function LoginScreen() {
             {error && <span className="error-message">{error}</span>}
           </div>
 
-          <button type="submit">Вуруд</button>
+          <button type="submit">Ворид</button>
         </form>
         <button
           onClick={() => openForgotPassword()}
