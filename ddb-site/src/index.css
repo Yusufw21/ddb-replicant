@@ -1536,7 +1536,6 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  min-height: 100vh;
   position: relative;
   z-index: 1;
   background: linear-gradient(180deg, #1e40af 0%, #0f172a 100%);
