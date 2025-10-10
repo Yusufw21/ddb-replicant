@@ -10,8 +10,7 @@
     position: relative;
     padding-bottom: max(24px, env(safe-area-inset-bottom));
     overscroll-behavior-y: contain;
-    height: -moz-fit-content;
-    height: fit-content;
+    height: 100vh;
   }
   .website__header {
     height: 72px;
